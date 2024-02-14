@@ -37,7 +37,7 @@ $hash = trim(fgets(STDIN));
 // loop through the idx files, create the lookup table and crack the hash
 foreach ($idxFiles as $idxFile) {
     $idxPath = $indexFolder . '/' . $idxFile;
-    $dictPath = $dictFolder . '/' . pathinfo($idxFile, PATHINFO_FILENAME) . '.txt';
+    $dictPath = $dictFolder . '/' . pathinfo($idxFile, PATHINFO_FILENAME);
     // echo "idxPath: $idxPath\n";
     // echo "dictPath: $dictPath\n";
 

@@ -35,7 +35,7 @@ $hashes = file($hashFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 // loop through the idx files, create the lookup table and crack the hashes
 foreach ($idxFiles as $idxFile) {
     $idxPath = $indexFolder . '/' . $idxFile;
-    $dictPath = $dictFolder . '/' . pathinfo($idxFile, PATHINFO_FILENAME) . '.txt';
+    $dictPath = $dictFolder . '/' . pathinfo($idxFile, PATHINFO_FILENAME);
 
     try {
         // create a lookup table

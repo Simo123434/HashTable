@@ -95,10 +95,10 @@ foreach ($files as $file) {
 
         $position = ftell($input);
         $progressLines++;
-        if($progressLines % 100000 == 0) // Arbitrary.
+        if($progressLines % 1000000 == 0) // Arbitrary.
         {
             $gb = round((double)$position / pow(1024, 3), 3);
-            echo "So far, completed $progressLines lines" . $gb . "GB ...\n";
+            echo "So far, completed $progressLines lines " . $gb . "GB ...\n";
         }
     }
 
@@ -141,7 +141,7 @@ function getFirst64Bits($fullHash)
 
 function printUsage()
 {
-    echo "Usage: php createidx.php <hashtype> <input_directory> <output_directory>\n\n";
+    echo "Usage: php createidx.php <input_directory> <output_directory>\n\n";
     echo "input_directory - The directory containing files with hashes and words in the format \"hash:word\"\n";
     echo "output_directory - The directory where the index files will be stored.\n";
 }
