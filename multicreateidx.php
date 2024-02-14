@@ -34,23 +34,35 @@ if ($argc < 3) {
 $inputDirectory = $argv[1];
 $outputDirectory = $argv[2];
 
+// check if the input directory exists, if not create it
 if (!is_dir($inputDirectory)) {
     echo "Input directory does not exist.\n";
-    die();
+    echo "Creating input directory: $inputDirectory\n";
+    if (!mkdir($inputDirectory, 0777, true)) {
+        echo "Failed to create input directory: $inputDirectory\n";
+    }
 }
 
+// check if the output directory exists, if not create it
 if (!is_dir($outputDirectory)) {
     echo "Output directory does not exist.\n";
-    die();
+    echo "Creating output directory: $outputDirectory\n";
+    if (!mkdir($outputDirectory, 0777, true)) {
+        echo "Failed to create output directory: $outputDirectory\n";
+    }
 }
 
+// Get the list of files in the input directory
 $files = scandir($inputDirectory);
 foreach ($files as $file) {
+    // Skip . and .. files
     if ($file === '.' || $file === '..') {
         continue;
     }
 
+
     $inputFile = $inputDirectory . '/' . $file;
+    // Create the output file name as the input file name with the extension changed to .idx
     $outputFile = $outputDirectory . '/' . pathinfo($file, PATHINFO_FILENAME) . '.idx';
 
     if (($input = fopen($inputFile, "rb")) == FALSE) {
@@ -70,22 +82,24 @@ foreach ($files as $file) {
         $line = trim($line, "\n\r"); // Get rid of any extra newline characters, but don't get rid of spaces or tabs.
         $parts = explode(':', $line, 2);
         if (count($parts) !== 2) {
+            // check if the line is in the format "hash:word"
             echo "Skipping line [$line] in file $inputFile because it is not in the format 'hash:word'.\n";
             continue;
         }
         $hash = $parts[0];
         $word = $parts[1];
+        // get first 64 bits of the hash
         $hash = getFirst64Bits($hash);
         fwrite($index, $hash);
         fwrite($index, encodeTo48Bits($position));
 
         $position = ftell($input);
-        // $progressLines++;
-        // if($progressLines % 100000 == 0) // Arbitrary.
-        // {
-        //     $gb = round((double)$position / pow(1024, 3), 3);
-        //     echo "So far, completed $progressLines lines (${gb}GB) ...\n";
-        // }
+        $progressLines++;
+        if($progressLines % 100000 == 0) // Arbitrary.
+        {
+            $gb = round((double)$position / pow(1024, 3), 3);
+            echo "So far, completed $progressLines lines" . $gb . "GB ...\n";
+        }
     }
 
     fclose($input);
