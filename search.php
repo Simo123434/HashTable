@@ -5,7 +5,7 @@ require_once('MoreHashes.php');
 require_once('LookupTable.php');
 
 // Check if the correct number of command-line arguments is provided
-if ($argc != 4) {
+if ($argc != 5) {
     printUsage();
     die();
 }
@@ -14,10 +14,9 @@ if ($argc != 4) {
 $indexFile = $argv[1];
 $dictFile = $argv[2];
 $hashType = $argv[3];
+$hash = $argv[4];
 
-// Get the hash from user input (replace this with your actual hash)
-echo "Enter the hash: ";
-$hash = trim(fgets(STDIN));
+
 
 try {
     // Create a lookup table
@@ -42,10 +41,11 @@ catch (Exception $e) {
 // Function to print script usage
 function printUsage()
 {
-    echo "Usage: php lookup.php <indexFile> <dictFile> <hashType>\n\n";
+    echo "Usage: php lookup.php <indexFile> <dictFile> <hashType> <hash>\n\n";
     echo "indexFile - Path to the folder containing index files.\n";
     echo "dictFile - Path to the folder containing dictionary files.\n";
     echo "hashType - Hash algorithm. See: hash()\n";
+    echo "hash - The hash to search for.\n\n";
 }
 ?>
 

@@ -1,9 +1,8 @@
 <?php
 
 /*
- * Usage: php createidx.php <hashtype> <input_directory> <output_directory>
+ * Usage: php createidx.php <input_directory> <output_directory>
  *
- * hashtype - The type of hash. See the php hash() function documentation.
  * input_directory - The directory containing files with hashes and words in the format "hash:word".
  * output_directory - The directory where the index files will be stored.
  *
@@ -97,8 +96,7 @@ foreach ($files as $file) {
         $progressLines++;
         if($progressLines % 1000000 == 0) // Arbitrary.
         {
-            $gb = round((double)$position / pow(1024, 3), 3);
-            echo "So far, completed $progressLines lines " . $gb . "GB ...\n";
+            echo "So far, completed $progressLines lines ...\n";
         }
     }
 

@@ -2,7 +2,8 @@
 Based off Crackstations HashTable (https://github.com/defuse/crackstation-hashdb)
 
 # TODO
-- fix implementation of multisearch
+- potentially add parser for "user:hash" in search (for use with collected NTDIS) and output uesr:password
+- 
 
 # Features
 Takes a folder of wordlists in the format "hash:word" and builds a hash table for quick lookups.
@@ -23,6 +24,9 @@ Takes a folder of wordlists in the format "hash:word" and builds a hash table fo
 
 ## Searching
 ```php
-php multisearch.php "hashtype" "index folder" "dictionary folder" 
+php multisearch.php "hashtype" "index folder" "dictionary folder" "hash"
+or
+php multisearch-files.php "hashtype" "index folder" "dictionary folder" "hash file"
 ```
-example `php multisearch.php NTLM index dicts`
+example `php multisearch.php NTLM index dicts a4f49c406510bdcab6824ee7c30fd852`
+example 2 `php multisearch-files.php NTLM index dicts hashes.txt`

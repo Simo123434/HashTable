@@ -7,7 +7,7 @@
 require_once('LookupTable.php');
 
 // check args
-if ($argc != 4) {
+if ($argc != 5) {
     printUsage();
     die();
 }
@@ -16,6 +16,7 @@ if ($argc != 4) {
 $hashType = $argv[1];
 $indexFolder = $argv[2];
 $dictFolder = $argv[3];
+$hashFile = $argv[4];
 
 // get the list of idx files and remove .. and .
 $idxFiles = scandir($indexFolder);
@@ -25,9 +26,6 @@ $idxFiles = array_diff($idxFiles, array('..', '.'));
 $dictFiles = scandir($dictFolder);
 $dictFiles = array_diff($dictFiles, array('..', '.'));
 
-// get the path to the file containing hashes
-echo "Enter the path to the file containing hashes: ";
-$hashFile = trim(fgets(STDIN));
 
 // read the hashes from the file
 $hashes = file($hashFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -60,9 +58,10 @@ foreach ($idxFiles as $idxFile) {
 // Usage explanation
 function printUsage()
 {
-    echo "Usage: php MultiFileSearch.php <hash> <idx dir> <dict dir>\n";
+    echo "Usage: php MultiFileSearch.php <hash> <idx dir> <dict dir> <hash file>\n";
     echo "  <hash> - the hash to search for\n\n";
     echo " ASSUMES THAT THE IDX FILES ARE NAMED THE SAME AS THE DICTIONARY FILES\n\n";
     echo "  <idx dir> - the directory containing the idx files\n";
     echo "  <dict dir> - the directory containing the dictionary files\n";
+    echo " <hash file> - the file containing the hashes to search for\n\n";
 }

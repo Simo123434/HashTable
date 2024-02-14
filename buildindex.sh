@@ -19,7 +19,20 @@ fi
 php multicreateidx.php $1 ./index
 
 # run the sortcheck.sh on the index folder
-./sortcheck.sh ./index
+for file in "index"/*; do
+    if [ -f "$file" ]; then
+        echo "Processing file: $file"
+
+        # Run the first command
+        ./sortidx "$file"
+
+        # Run the second command
+        ./checksort "$file"
+
+        echo "Done processing file: $file"
+        echo
+    fi
+done
 
 # echo that all index files have been created and sorted.
 echo "All index files have been created and sorted."

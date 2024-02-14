@@ -7,7 +7,7 @@
 require_once('LookupTable.php');
 
 // check args
-if ($argc != 4) {
+if ($argc != 5) {
     printUsage();
     die();
 }
@@ -16,30 +16,23 @@ if ($argc != 4) {
 $hashType = $argv[1];
 $indexFolder = $argv[2];
 $dictFolder = $argv[3];
+$hash = $argv[4];
 
 
 // get the list of idx files and remove .. and .
 $idxFiles = scandir($indexFolder);
 $idxFiles = array_diff($idxFiles, array('..', '.'));
-// echo "idxFiles: " . print_r($idxFiles, true) . "\n";
 
 // get the list of dictionary files and remove .. and .
 $dictFiles = scandir($dictFolder);
 $dictFiles = array_diff($dictFiles, array('..', '.'));
-// echo "dictFiles: " . print_r($dictFiles, true) . "\n";
 
-
-// get the hash from user input 
-// this to be updated depending on implentation
-echo "Enter the hash: ";
-$hash = trim(fgets(STDIN));
 
 // loop through the idx files, create the lookup table and crack the hash
 foreach ($idxFiles as $idxFile) {
     $idxPath = $indexFolder . '/' . $idxFile;
     $dictPath = $dictFolder . '/' . pathinfo($idxFile, PATHINFO_FILENAME);
-    // echo "idxPath: $idxPath\n";
-    // echo "dictPath: $dictPath\n";
+
 
     try {
         // create a lookup table

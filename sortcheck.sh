@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Check if the folder path is provided as a command line argument
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <folder_path>"
