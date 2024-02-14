@@ -1,4 +1,4 @@
-.PHONY: all clean test testclean
+.PHONY: all clean
 
 all: sortidx checksort
 
@@ -11,9 +11,3 @@ checksort: checksort.c
 clean:
 	rm -f sortidx checksort
 
-test:
-	./test/test.sh
-
-testclean:
-	rm -f test-index-files/test-words*.idx
-	rm -fd test-index-files
