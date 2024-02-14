@@ -1,7 +1,7 @@
 <?php
 require_once('LookupTable.php');
 
-$hash = $_POST['hash'];
+$hashes = $_POST['hashes'];
 $indexFolder = './index';
 $dictFolder = './dicts';
 $hashType = 'NTLM';
@@ -12,20 +12,26 @@ $idxFiles = array_diff($idxFiles, array('..', '.'));
 $dictFiles = scandir($dictFolder);
 $dictFiles = array_diff($dictFiles, array('..', '.'));
 
-foreach ($idxFiles as $idxFile) {
-    $idxPath = $indexFolder . '/' . $idxFile;
-    $dictPath = $dictFolder . '/' . pathinfo($idxFile, PATHINFO_FILENAME);
-    try {
-        $lookupTable = new LookupTable($idxPath, $dictPath, $hashType);
-        $results = $lookupTable->crack($hash);
-        if (!empty($results)) {
-            foreach ($results as $result) {
-                echo $result->getPlaintext() . "\n";
+$resultsArray = array();
+
+foreach ($hashes as $hash) {
+    foreach ($idxFiles as $idxFile) {
+        $idxPath = $indexFolder . '/' . $idxFile;
+        $dictPath = $dictFolder . '/' . pathinfo($idxFile, PATHINFO_FILENAME);
+        try {
+            $lookupTable = new LookupTable($idxPath, $dictPath, $hashType);
+            $results = $lookupTable->crack($hash);
+            if (!empty($results)) {
+                foreach ($results as $result) {
+                    $resultsArray[] = $result->getPlaintext();
+                }
             }
         }
-    }
-    catch (Exception $e) {
-        echo "Error: " . $e->getMessage() . "\n";
+        catch (Exception $e) {
+            $resultsArray[] = "Error: " . $e->getMessage();
+        }
     }
 }
+
+echo json_encode($resultsArray);
 ?>
