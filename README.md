@@ -16,7 +16,7 @@ Takes a folder of wordlists in the format "hash:word" and builds a hash table fo
 # Usage
 ## Build indexes
 1. make clean
-2. make install
+2. make all
 3. chmod +x sortcheck.sh
 4. chmod +x buildindex.sh
 5. ./buildindex.sh "wordlist folder"
