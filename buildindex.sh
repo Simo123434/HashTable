@@ -16,7 +16,7 @@ if [ ! -d $1 ]; then
 fi
 
 # call the multicreateidx.php with the folder as argument and the second argumnet "./index"
-php multicreateidx.php $1 ./index
+ php multicreateidx.php $1 ./index
 
 # run the sortcheck.sh on the index folder
 for file in "index"/*; do
@@ -24,7 +24,7 @@ for file in "index"/*; do
         echo "Processing file: $file"
 
         # Run the first command
-        ./sortidx "$file"
+        ./sortidx -r 2048 "$file"
 
         # Run the second command
         ./checksort "$file"
