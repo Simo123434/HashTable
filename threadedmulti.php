@@ -20,7 +20,7 @@ if (!file_exists($outputDirectory) && !mkdir($outputDirectory, 0777, true)) {
     die("Failed to create output directory: $outputDirectory\n");
 }
 
-$files = glob($inputDirectory . '/*.txt');
+$files = glob($inputDirectory . '/*');
 
 foreach ($files as $inputFile) {
     $outputFile = $outputDirectory . '/' . pathinfo($inputFile, PATHINFO_FILENAME) . '.idx';
