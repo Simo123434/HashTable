@@ -4,7 +4,7 @@
 // check hash against all idx files in the directory and matches them to their dictionary files
 
 // include classes/functions
-require_once('LookupTable.php');
+require_once "LookupTable.php";
 
 // check args
 if ($argc != 5) {
@@ -20,38 +20,49 @@ $hashFile = $argv[4];
 
 // get the list of idx files and remove .. and .
 $idxFiles = scandir($indexFolder);
-$idxFiles = array_diff($idxFiles, array('..', '.'));
+$idxFiles = array_diff($idxFiles, ["..", "."]);
 
 // get the list of dictionary files and remove .. and .
 $dictFiles = scandir($dictFolder);
-$dictFiles = array_diff($dictFiles, array('..', '.'));
-
+$dictFiles = array_diff($dictFiles, ["..", "."]);
 
 // read the hashes from the file
 $hashes = file($hashFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
 // loop through the idx files, create the lookup table and crack the hashes
-foreach ($idxFiles as $idxFile) {
-    $idxPath = $indexFolder . '/' . $idxFile;
-    $dictPath = $dictFolder . '/' . pathinfo($idxFile, PATHINFO_FILENAME);
+foreach ($hashes as $hash) {
+    // take the hash from the format user:hash
+    $hashstr = explode(":", $hash)[1];
+    $user = explode(":", $hash)[0];
 
-    try {
-        // create a lookup table
-        $lookupTable = new LookupTable($idxPath, $dictPath, $hashType);
+    // Check for password found in any of the idx files
+    $passwordFound = false;
+    foreach ($idxFiles as $idxFile) {
+        $idxPath = $indexFolder . "/" . $idxFile;
+        $dictPath = $dictFolder . "/" . pathinfo($idxFile, PATHINFO_FILENAME);
 
-        // crack the hashes
-        foreach ($hashes as $hash) {
-            $results = $lookupTable->crack($hash);
+        try {
+            $lookupTable = new LookupTable($idxPath, $dictPath, $hashType);
+            $results = $lookupTable->crack($hashstr);
 
-            // output the password only
             if (!empty($results)) {
                 foreach ($results as $result) {
-                    echo $result->getPlaintext() . "\n";
+                    $crackedpassword = $result->getPlaintext() . "\n";
+                    $crackedpassword = $user . ":" . $crackedpassword;
+                    echo $crackedpassword;
+                    $passwordFound = true; // Mark password as found
+                    break 2; // Exit both loops to move to the next hash
                 }
             }
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage() . "\n";
+            // continue to try with the next idx file
         }
-    } catch (Exception $e) {
-        echo "Error: " . $e->getMessage() . "\n";
+    }
+
+    // If password wasn't found in any idx file, proceed to the next hash
+    if (!$passwordFound) {
+        echo "Password for hash $hashstr not found.\n";
     }
 }
 
