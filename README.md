@@ -10,6 +10,7 @@ Takes a folder of wordlists in the format "hash:word" and builds a hash table fo
 - wordlists must be split into parts to make processing easier
 - if you need to split files (`split -n l/20 --numeric-suffixes input output`) -> splits into 20 parts
 - default memory allocation for sortidx is 2GB, if you need to change this edit the buildindex.sh script
+- This project has been built with a focus on NTLM hashes meaning scripts will probably need to be modified to work with other hash types
 
 # Usage
 ## Build indexes
