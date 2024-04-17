@@ -18,6 +18,8 @@ Create a folder with the wordlists in the format "hash:word" (can be created usi
 The following commands will build the hash table indexes. The index files will be outputted to a folder called "index" in the same directory as the buildindex.sh script. The script will create an index file for every file in the provided wordlist folder. the index file will be named the same as the wordlist file with the extension .idx. e.g. wordlist1 -> wordlist1.idx 
 (**NOTE: the wordlist files had no extension when I tested this, so the script may need to be modified to work with files with extensions**)
 
+Building tested in Ubuntu 22.04
+
 * Remove previous build files:
 `make clean`
 
@@ -32,6 +34,8 @@ The following commands will build the hash table indexes. The index files will b
 
 
 ## Searching
+Searching should work with any system that has PHP
+
 multisearch.php can be used to search for a single hash in the hash table
 
 ```php
